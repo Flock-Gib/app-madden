@@ -399,31 +399,31 @@ def reset_password(token):
     return render_template('reset_password.html')
 
 @app.route('/madden-data', methods=['POST'])
-def receive_madden_data():
+@app.route('/Madden-data', methods=['POST'])
+@app.route('/madden-data/<path:subpath>', methods=['POST'])
+@app.route('/Madden-data/<path:subpath>', methods=['POST'])
+def receive_madden_data(subpath=None):
     data = request.get_json()
-    print("Received Data:", data)
     
+    print(f"Received data at /madden-data/{subpath if subpath else ''}")
+    print("Payload:", data)
+
     if not data:
         return 'No data received', 400
 
-    try:
-        for game in data.get('games', []):
-            new_game = GameResult(
-                user_id=current_user.id,
-                year=game.get('year', 0),
-                week=game.get('week', 'Unknown'),
-                team1=game.get('team1', 'Unknown'),
-                team1_score=game.get('team1_score', 0),
-                team2=game.get('team2', 'Unknown'),
-                team2_score=game.get('team2_score', 0),
-                home_team=game.get('home_team', 'Unknown')
-            )
-            db.session.add(new_game)
-        db.session.commit()
+    # Optional: You can add logic to process specific data types based on 'subpath'
+    if subpath:
+        if 'passing' in subpath:
+            print("Processing passing data...")
+        elif 'rushing' in subpath:
+            print("Processing rushing data...")
+        elif 'teamstats' in subpath:
+            print("Processing team stats...")
+        elif 'roster' in subpath:
+            print("Processing roster data...")
 
-        return 'Data received and saved', 200
-    except Exception as e:
-        return f'Error processing data: {str(e)}', 500
+    return 'Data received successfully', 200
+
 
 # User Routes
 @app.route('/')
