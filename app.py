@@ -398,33 +398,6 @@ def reset_password(token):
 
     return render_template('reset_password.html')
 
-@app.route('/madden-data', methods=['POST'])
-@app.route('/Madden-data', methods=['POST'])
-@app.route('/madden-data/<path:subpath>', methods=['POST'])
-@app.route('/Madden-data/<path:subpath>', methods=['POST'])
-def receive_madden_data(subpath=None):
-    data = request.get_json()
-    
-    print(f"Received data at /madden-data/{subpath if subpath else ''}")
-    print("Payload:", data)
-
-    if not data:
-        return 'No data received', 400
-
-    # Optional: You can add logic to process specific data types based on 'subpath'
-    if subpath:
-        if 'passing' in subpath:
-            print("Processing passing data...")
-        elif 'rushing' in subpath:
-            print("Processing rushing data...")
-        elif 'teamstats' in subpath:
-            print("Processing team stats...")
-        elif 'roster' in subpath:
-            print("Processing roster data...")
-
-    return 'Data received successfully', 200
-
-
 # User Routes
 @app.route('/')
 def home():
@@ -491,3 +464,4 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
+
