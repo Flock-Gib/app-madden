@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Pricing{% endblock %}
+
+{% block content %}
+<h2 class="text-center">Pricing Plans</h2>
+<p class="text-center">Subscribe to unlock premium features!</p>
+
+<div class="text-center">
+    <form action="{{ url_for('create_checkout_session') }}" method="POST">
+        <button type="submit" class="btn btn-primary">Subscribe for $10</button>
+    </form>
+</div>
+{% endblock %}
